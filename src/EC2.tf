@@ -12,7 +12,7 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = [aws_security_group.allow.id]
 
   tags = {
-    Name = "EC2_Test1"
+    Name = "EC2_Test11"
   }
 
   user_data = <<-EOF
