@@ -31,6 +31,9 @@ jobs:
     # Change to the directory containing the Terraform configuration
     - name: Change to src directory
       run: cd src
+
+    - name: List directory contents
+      run: ls -al
         
     - name: Terraform Init
       run: terraform init
