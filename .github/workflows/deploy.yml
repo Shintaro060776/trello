@@ -20,7 +20,12 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
-          ssh -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$SERVER_IP 'sudo chmod 777 /usr/share/nginx/html/trello'
-          scp -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }} ec2-user@$SERVER_IP:/usr/share/nginx/html
+
+          # rsyncを使って.gitディレクトリを除外してファイルをコピー
+          rsync -avz -e "ssh -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude '.git/' ${{ github.workspace }}/ ec2-user@$SERVER_IP:/usr/share/nginx/html/trello/
+
+          # Nginxの再起動
           ssh -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
+          
+          # キーの削除
           rm -f deploy_key
