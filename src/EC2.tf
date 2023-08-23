@@ -1,6 +1,6 @@
 resource "aws_key_pair" "ec2_key" {
   key_name   = "ec2-ed25519-key"
-  public_key = file("./src/id_ed25519.pub")
+  public_key = file("/home/shintaro/.ssh/new_deploy_key.pub")
 }
 
 resource "aws_instance" "example" {
